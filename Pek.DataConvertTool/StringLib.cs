@@ -9,7 +9,6 @@ namespace Pek.DataConvertTool;
 [Description("字符串类型数据转换类")]
 public class StringLib
 {
-
     /// <summary>
     /// 将字节数组转换成字符串
     /// </summary>
@@ -18,10 +17,7 @@ public class StringLib
     /// <param name="count">数量</param>
     /// <returns>转换结果</returns>
     [Description("将字节数组转换成字符串")]
-    public static string GetStringFromByteArrayByBitConvert(byte[] value, int start, int count)
-    {
-        return BitConverter.ToString(value, start, count);
-    }
+    public static String GetStringFromByteArrayByBitConvert(Byte[] value, Int32 start, Int32 count) => BitConverter.ToString(value, start, count);
 
     /// <summary>
     /// 将字节数组转换成字符串
@@ -29,10 +25,7 @@ public class StringLib
     /// <param name="value">字节数组</param>
     /// <returns>转换结果</returns>
     [Description("将字节数组转换成字符串")]
-    public static string GetStringFromByteArrayByBitConvert(byte[] value)
-    {
-        return BitConverter.ToString(value, 0, value.Length);
-    }
+    public static String GetStringFromByteArrayByBitConvert(Byte[] value) => BitConverter.ToString(value, 0, value.Length);
 
     /// <summary>
     /// 将字节数组转换成带编码格式字符串
@@ -43,10 +36,7 @@ public class StringLib
     /// <param name="encoding">编码格式</param>
     /// <returns>转换结果</returns>
     [Description("将字节数组转换成带编码格式字符串")]
-    public static string GetStringFromByteArrayByEncoding(byte[] value, int start, int count, Encoding encoding)
-    {
-        return encoding.GetString(ByteArrayLib.GetByteArrayFromByteArray(value, start, count));
-    }
+    public static String GetStringFromByteArrayByEncoding(Byte[] value, Int32 start, Int32 count, Encoding encoding) => encoding.GetString(ByteArrayLib.GetByteArrayFromByteArray(value, start, count));
 
     /// <summary>
     /// 将字节数组转换成带编码格式字符串
@@ -55,10 +45,7 @@ public class StringLib
     /// <param name="encoding">编码格式</param>
     /// <returns>转换结果</returns>
     [Description("将字节数组转换成带编码格式字符串")]
-    public static string GetStringFromByteArrayByEncoding(byte[] value, Encoding encoding)
-    {
-        return encoding.GetString(ByteArrayLib.GetByteArrayFromByteArray(value, 0, value.Length));
-    }
+    public static String GetStringFromByteArrayByEncoding(Byte[] value, Encoding encoding) => encoding.GetString(ByteArrayLib.GetByteArrayFromByteArray(value, 0, value.Length));
 
     /// <summary>
     /// 根据起始地址和长度将字节数组转换成带16进制字符串
@@ -69,30 +56,30 @@ public class StringLib
     /// <param name="segment">连接符</param>
     /// <returns>转换结果</returns>
     [Description("根据起始地址和长度将字节数组转换成带16进制字符串")]
-    public static string GetHexStringFromByteArray(byte[] value, int start, int count, string segment = " ")
+    public static String GetHexStringFromByteArray(Byte[] value, Int32 start, Int32 count, String segment = " ")
     {
-        byte[] b = ByteArrayLib.GetByteArrayFromByteArray(value, start, count);
+        var b = ByteArrayLib.GetByteArrayFromByteArray(value, start, count);
 
-        StringBuilder stringBuilder = new StringBuilder();
+        var StringBuilder = new StringBuilder();
 
         foreach (var item in b)
         {
             if (segment.Length == 0)
             {
-                stringBuilder.Append(string.Format("{0:X2}", item));
+                StringBuilder.Append(String.Format("{0:X2}", item));
             }
             else
             {
-                stringBuilder.Append(string.Format("{0:X2}{1}", item, segment));
+                StringBuilder.Append(String.Format("{0:X2}{1}", item, segment));
             }
         }
 
-        if (segment.Length != 0 && stringBuilder.Length > 1 && (stringBuilder.ToString().Substring(stringBuilder.Length - segment.Length) == segment))
+        if (segment.Length != 0 && StringBuilder.Length > 1 && (StringBuilder.ToString()[(StringBuilder.Length - segment.Length)..] == segment))
         {
-            stringBuilder.Remove(stringBuilder.Length - segment.Length, segment.Length);
+            StringBuilder.Remove(StringBuilder.Length - segment.Length, segment.Length);
         }
 
-        return stringBuilder.ToString();
+        return StringBuilder.ToString();
     }
 
     /// <summary>
@@ -102,30 +89,25 @@ public class StringLib
     /// <param name="segment">连接符</param>
     /// <returns>转换结果</returns>
     [Description("将整个字节数组转换成带16进制字符串")]
-    public static string GetHexStringFromByteArray(byte[] source, string segment = " ")
-    {
-        return GetHexStringFromByteArray(source, 0, source.Length, segment);
-    }
+    public static String GetHexStringFromByteArray(Byte[] source, String segment = " ") => GetHexStringFromByteArray(source, 0, source.Length, segment);
 
     /// <summary>
     /// 将字节数组转换成西门子字符串
     /// </summary>
-    /// <param name="source">字节数组</param>
+    /// <param name="data">字节数组</param>
     /// <param name="start">开始索引</param>
-    /// <param name="length">长度</param>
-    /// <param name="emptyStr">如果为空，显示什么内容</param>
     /// <returns>转换结果</returns>
     [Description("将字节数组转换成西门子字符串")]
-    public static string GetSiemensStringFromByteArray(byte[] data, int start)
+    public static String GetSiemensStringFromByteArray(Byte[] data, Int32 start)
     {
-        int valid = data[start + 1];
+        Int32 valid = data[start + 1];
         if (valid > 0)
         {
             return Encoding.GetEncoding("GBK").GetString(ByteArrayLib.GetByteArrayFromByteArray(data, start + 2, valid));
         }
         else
         {
-            return string.Empty;
+            return String.Empty;
         }
     }
 
@@ -139,7 +121,7 @@ public class StringLib
     /// <param name="segment">连接符</param>
     /// <returns>返回结果</returns>
     [Description("根据起始地址和长度将各种类型数组转换成字符串")]
-    public static string GetStringFromValueArray<T>(T[] value, int start, int length, string segment = " ")
+    public static String GetStringFromValueArray<T>(T[] value, Int32 start, Int32 length, String segment = " ")
     {
 
         if (start < 0) throw new ArgumentException("开始索引不能为负数");
@@ -148,7 +130,7 @@ public class StringLib
 
         if (value.Length < (start + length)) throw new ArgumentException("字节数组长度不够或开始索引太大");
 
-        T[] result = new T[length];
+        var result = new T[length];
 
         Array.Copy(value, start, result, 0, length);
 
@@ -164,31 +146,31 @@ public class StringLib
     /// <param name="segment">连接符</param>
     /// <returns>返回结果</returns>
     [Description("各种类型数组转换成字符串")]
-    public static string GetStringFromValueArray<T>(T[] value, string segment = " ")
+    public static String GetStringFromValueArray<T>(T[] value, String segment = " ")
     {
-        StringBuilder stringBuilder = new StringBuilder();
+        var StringBuilder = new StringBuilder();
 
         if (value.Length > 0)
         {
-            foreach (T item in value)
+            foreach (var item in value)
             {
                 if (segment.Length == 0)
                 {
-                    stringBuilder.Append(item.ToString());
+                    StringBuilder.Append(item?.ToString());
                 }
                 else
                 {
-                    stringBuilder.Append(item.ToString() + segment.ToString());
+                    StringBuilder.Append(item?.ToString() + segment.ToString());
                 }
             }
         }
 
-        if (segment.Length != 0 && stringBuilder.Length > 1 && (stringBuilder.ToString().Substring(stringBuilder.Length - segment.Length) == segment))
+        if (segment.Length != 0 && StringBuilder.Length > 1 && (StringBuilder.ToString()[(StringBuilder.Length - segment.Length)..] == segment))
         {
-            stringBuilder.Remove(stringBuilder.Length - segment.Length, segment.Length);
+            StringBuilder.Remove(StringBuilder.Length - segment.Length, segment.Length);
         }
 
-        return stringBuilder.ToString();
+        return StringBuilder.ToString();
     }
 
 }

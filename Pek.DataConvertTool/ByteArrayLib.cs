@@ -736,7 +736,7 @@ public class ByteArrayLib
         {
             for (var i = 0; i < value.Length; i += 2)
             {
-                var temp = value.Substring(i, 2);
+                var temp = value.SubString(i, 2);
 
                 result.Add(Convert.ToByte(temp, 16));
             }
@@ -773,11 +773,11 @@ public class ByteArrayLib
     public static Byte[] GetAsciiByteArrayFromValue(UInt16 value) => Encoding.ASCII.GetBytes(value.ToString("X4"));
 
     /// <summary>
-    /// 将string数据转换成一个Ascii格式字节数组
+    /// 将String数据转换成一个Ascii格式字节数组
     /// </summary>
-    /// <param name="value">string数据</param>
+    /// <param name="value">String数据</param>
     /// <returns>字节数组</returns>
-    [Description("将string数据转换成一个Ascii格式字节数组")]
+    [Description("将String数据转换成一个Ascii格式字节数组")]
     public static Byte[] GetAsciiByteArrayFromValue(String value) => Encoding.ASCII.GetBytes(value);
 
     /// <summary>

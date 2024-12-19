@@ -18,9 +18,9 @@ public class UIntLib
     /// <param name="dataFormat">数据格式</param>
     /// <returns>返回UInt类型</returns>
     [Description("字节数组中截取转成32位无符号整型")]
-    public static uint GetUIntFromByteArray(byte[] value, int start = 0, DataFormat dataFormat = DataFormat.ABCD)
+    public static UInt32 GetUIntFromByteArray(Byte[] value, Int32 start = 0, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] data = ByteArrayLib.Get4BytesFromByteArray(value, start, dataFormat);
+        var data = ByteArrayLib.Get4BytesFromByteArray(value, start, dataFormat);
         return BitConverter.ToUInt32(data, 0);
     }
 
@@ -31,15 +31,15 @@ public class UIntLib
     /// <param name="dataFormat">数据格式</param>
     /// <returns>返回int数组</returns>
     [Description("将字节数组中截取转成32位无符号整型数组")]
-    public static uint[] GetUIntArrayFromByteArray(byte[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static UInt32[] GetUIntArrayFromByteArray(Byte[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
         if (value == null) throw new ArgumentNullException("检查数组长度是否为空");
 
         if (value.Length % 4 != 0) throw new ArgumentNullException("检查数组长度是否为4的倍数");
 
-        uint[] values = new uint[value.Length / 4];
+        var values = new UInt32[value.Length / 4];
 
-        for (int i = 0; i < value.Length / 4; i++)
+        for (var i = 0; i < value.Length / 4; i++)
         {
             values[i] = GetUIntFromByteArray(value, 4 * i, dataFormat);
         }
@@ -60,13 +60,13 @@ public class UIntLib
 
         value = value.Trim();
 
-        List<uint> result = new List<uint>();
+        var result = new List<UInt32>();
 
         try
         {
             if (value.Contains(spilt))
             {
-                string[] str = value.Split(new string[] { spilt }, StringSplitOptions.RemoveEmptyEntries);
+                var str = value.Split([spilt], StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var item in str)
                 {
@@ -78,7 +78,7 @@ public class UIntLib
                 result.Add(Convert.ToUInt32(value.Trim()));
             }
 
-            return result.ToArray();
+            return [.. result];
         }
         catch (Exception ex)
         {
@@ -92,8 +92,5 @@ public class UIntLib
     /// <param name="boolLength">布尔长度</param>
     /// <returns>整数</returns>
     [Description("通过布尔长度取整数")]
-    public static uint GetByteLengthFromBoolLength(int boolLength)
-    {
-        return boolLength % 8 == 0 ? (uint)(boolLength / 8) : (uint)(boolLength / 8 + 1);
-    }
+    public static UInt32 GetByteLengthFromBoolLength(Int32 boolLength) => boolLength % 8 == 0 ? (UInt32)(boolLength / 8) : (UInt32)(boolLength / 8 + 1);
 }

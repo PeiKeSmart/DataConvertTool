@@ -18,9 +18,9 @@ public class IntLib
     /// <param name="dataFormat">数据格式</param>
     /// <returns>返回int类型</returns>
     [Description("字节数组中截取转成32位整型")]
-    public static int GetIntFromByteArray(byte[] value, int start = 0, DataFormat dataFormat = DataFormat.ABCD)
+    public static Int32 GetIntFromByteArray(Byte[] value, Int32 start = 0, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] data = ByteArrayLib.Get4BytesFromByteArray(value, start, dataFormat);
+        var data = ByteArrayLib.Get4BytesFromByteArray(value, start, dataFormat);
         return BitConverter.ToInt32(data, 0);
     }
 
@@ -31,15 +31,15 @@ public class IntLib
     /// <param name="dataFormat">数据格式</param>
     /// <returns>返回int数组</returns>
     [Description("将字节数组中截取转成32位整型数组")]
-    public static int[] GetIntArrayFromByteArray(byte[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Int32[] GetIntArrayFromByteArray(Byte[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
         if (value == null) throw new ArgumentNullException("检查数组长度是否为空");
 
         if (value.Length % 4 != 0) throw new ArgumentNullException("检查数组长度是否为4的倍数");
 
-        int[] values = new int[value.Length / 4];
+        var values = new Int32[value.Length / 4];
 
-        for (int i = 0; i < value.Length / 4; i++)
+        for (var i = 0; i < value.Length / 4; i++)
         {
             values[i] = GetIntFromByteArray(value, 4 * i, dataFormat);
         }
@@ -54,19 +54,19 @@ public class IntLib
     /// <param name="spilt">分隔符</param>
     /// <returns>返回int数组</returns>
     [Description("将字符串转转成32位整型数组")]
-    public static int[] GetIntArrayFromString(String? value, string spilt = " ")
+    public static Int32[] GetIntArrayFromString(String? value, String spilt = " ")
     {
         if (value.IsNullOrWhiteSpace()) return [];
 
         value = value.Trim();
 
-        List<int> result = new List<int>();
+        var result = new List<Int32>();
 
         try
         {
             if (value.Contains(spilt))
             {
-                string[] str = value.Split(new string[] { spilt }, StringSplitOptions.RemoveEmptyEntries);
+                var str = value.Split([spilt], StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var item in str)
                 {
@@ -78,7 +78,7 @@ public class IntLib
                 result.Add(Convert.ToInt32(value.Trim()));
             }
 
-            return result.ToArray();
+            return [.. result];
         }
         catch (Exception ex)
         {
@@ -92,8 +92,5 @@ public class IntLib
     /// <param name="boolLength">布尔长度</param>
     /// <returns>整数</returns>
     [Description("通过布尔长度取整数")]
-    public static int GetByteLengthFromBoolLength(int boolLength)
-    {
-        return boolLength % 8 == 0 ? boolLength / 8 : boolLength / 8 + 1;
-    }
+    public static Int32 GetByteLengthFromBoolLength(Int32 boolLength) => boolLength % 8 == 0 ? boolLength / 8 : boolLength / 8 + 1;
 }

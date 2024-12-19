@@ -18,9 +18,9 @@ public class LongLib
     /// <param name="dataFormat">数据格式</param>
     /// <returns>返回一个Long类型</returns>
     [Description("字节数组中截取转成64位整型")]
-    public static long GetLongFromByteArray(byte[] value, int start = 0, DataFormat dataFormat = DataFormat.ABCD)
+    public static Int64 GetLongFromByteArray(Byte[] value, Int32 start = 0, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] data = ByteArrayLib.Get8BytesFromByteArray(value, start, dataFormat);
+        var data = ByteArrayLib.Get8BytesFromByteArray(value, start, dataFormat);
         return BitConverter.ToInt64(data, 0);
     }
 
@@ -31,15 +31,15 @@ public class LongLib
     /// <param name="dataFormat">数据格式</param>
     /// <returns>返回Long数组</returns>
     [Description("将字节数组中截取转成64位整型数组")]
-    public static long[] GetLongArrayFromByteArray(byte[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Int64[] GetLongArrayFromByteArray(Byte[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
         if (value == null) throw new ArgumentNullException("检查数组长度是否为空");
 
         if (value.Length % 8 != 0) throw new ArgumentNullException("检查数组长度是否为8的倍数");
 
-        long[] values = new long[value.Length / 8];
+        var values = new Int64[value.Length / 8];
 
-        for (int i = 0; i < value.Length / 8; i++)
+        for (var i = 0; i < value.Length / 8; i++)
         {
             values[i] = GetLongFromByteArray(value, 8 * i, dataFormat);
         }
@@ -53,19 +53,19 @@ public class LongLib
     /// <param name="spilt">分隔符</param>
     /// <returns>返回Long数组</returns>
     [Description("将字符串转转成64位整型数组")]
-    public static long[] GetLongArrayFromString(String? value, string spilt = " ")
+    public static Int64[] GetLongArrayFromString(String? value, String spilt = " ")
     {
         if (value.IsNullOrWhiteSpace()) return [];
 
         value = value.Trim();
 
-        List<long> result = new List<long>();
+        var result = new List<Int64>();
 
         try
         {
             if (value.Contains(spilt))
             {
-                string[] str = value.Split(new string[] { spilt }, StringSplitOptions.RemoveEmptyEntries);
+                var str = value.Split([spilt], StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var item in str)
                 {
@@ -77,7 +77,7 @@ public class LongLib
                 result.Add(Convert.ToInt64(value.Trim()));
             }
 
-            return result.ToArray();
+            return [.. result];
         }
         catch (Exception ex)
         {

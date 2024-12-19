@@ -18,9 +18,9 @@ public class DoubleLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>Double类型数值</returns>
     [Description("将字节数组中某8个字节转换成Double类型")]
-    public static double GetDoubleFromByteArray(byte[] value, int start = 0, DataFormat dataFormat = DataFormat.ABCD)
+    public static Double GetDoubleFromByteArray(Byte[] value, Int32 start = 0, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] data = ByteArrayLib.Get8BytesFromByteArray(value, start, dataFormat);
+        var data = ByteArrayLib.Get8BytesFromByteArray(value, start, dataFormat);
         return BitConverter.ToDouble(data, 0);
     }
 
@@ -31,15 +31,15 @@ public class DoubleLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>Double数组</returns>
     [Description("将字节数组转换成Double数组")]
-    public static double[] GetDoubleArrayFromByteArray(byte[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Double[] GetDoubleArrayFromByteArray(Byte[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
         if (value == null) throw new ArgumentNullException("检查数组长度是否为空");
 
         if (value.Length % 8 != 0) throw new ArgumentNullException("检查数组长度是否为8的倍数");
 
-        double[] values = new double[value.Length / 8];
+        var values = new Double[value.Length / 8];
 
-        for (int i = 0; i < value.Length / 8; i++)
+        for (var i = 0; i < value.Length / 8; i++)
         {
             values[i] = GetDoubleFromByteArray(value, 8 * i, dataFormat);
         }
@@ -54,19 +54,19 @@ public class DoubleLib
     /// <param name="spilt">分割符</param>
     /// <returns>双精度浮点型数组</returns>
     [Description("将Double字符串转换成双精度浮点型数组")]
-    public static double[] GetDoubleArrayFromString(String? value, string spilt = " ")
+    public static Double[] GetDoubleArrayFromString(String? value, String spilt = " ")
     {
         if (value.IsNullOrWhiteSpace()) return [];
 
         value = value.Trim();
 
-        List<double> result = new List<double>();
+        var result = new List<Double>();
 
         try
         {
             if (value.Contains(spilt))
             {
-                string[] str = value.Split(new string[] { spilt }, StringSplitOptions.RemoveEmptyEntries);
+                var str = value.Split([spilt], StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var item in str)
                 {
@@ -78,7 +78,7 @@ public class DoubleLib
                 result.Add(Convert.ToDouble(value.Trim()));
             }
 
-            return result.ToArray();
+            return [.. result];
         }
         catch (Exception ex)
         {

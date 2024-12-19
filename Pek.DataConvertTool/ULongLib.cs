@@ -18,9 +18,9 @@ public class ULongLib
     /// <param name="dataFormat">数据格式</param>
     /// <returns>返回一个ULong类型</returns>
     [Description("字节数组中截取转成64位无符号整型")]
-    public static ulong GetULongFromByteArray(byte[] value, int start = 0, DataFormat dataFormat = DataFormat.ABCD)
+    public static UInt64 GetULongFromByteArray(Byte[] value, Int32 start = 0, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] data = ByteArrayLib.Get8BytesFromByteArray(value, start, dataFormat);
+        var data = ByteArrayLib.Get8BytesFromByteArray(value, start, dataFormat);
         return BitConverter.ToUInt64(data, 0);
     }
 
@@ -31,15 +31,15 @@ public class ULongLib
     /// <param name="dataFormat">数据格式</param>
     /// <returns>返回Long数组</returns>
     [Description("将字节数组中截取转成64位无符号整型数组")]
-    public static ulong[] GetULongArrayFromByteArray(byte[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static UInt64[] GetULongArrayFromByteArray(Byte[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
         if (value == null) throw new ArgumentNullException("检查数组长度是否为空");
 
         if (value.Length % 8 != 0) throw new ArgumentNullException("检查数组长度是否为8的倍数");
 
-        ulong[] values = new ulong[value.Length / 8];
+        var values = new UInt64[value.Length / 8];
 
-        for (int i = 0; i < value.Length / 8; i++)
+        for (var i = 0; i < value.Length / 8; i++)
         {
             values[i] = GetULongFromByteArray(value, 8 * i, dataFormat);
         }
@@ -53,19 +53,19 @@ public class ULongLib
     /// <param name="spilt">分隔符</param>
     /// <returns>返回ULong数组</returns>
     [Description("将字符串转转成64位无符号整型数组")]
-    public static ulong[] GetULongArrayFromString(String? value, string spilt = " ")
+    public static UInt64[] GetULongArrayFromString(String? value, String spilt = " ")
     {
         if (value.IsNullOrWhiteSpace()) return [];
 
         value = value.Trim();
 
-        List<ulong> result = new List<ulong>();
+        var result = new List<UInt64>();
 
         try
         {
             if (value.Contains(spilt))
             {
-                string[] str = value.Split(new string[] { spilt }, StringSplitOptions.RemoveEmptyEntries);
+                var str = value.Split([spilt], StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var item in str)
                 {
@@ -77,7 +77,7 @@ public class ULongLib
                 result.Add(Convert.ToUInt64(value.Trim()));
             }
 
-            return result.ToArray();
+            return [.. result];
         }
         catch (Exception ex)
         {

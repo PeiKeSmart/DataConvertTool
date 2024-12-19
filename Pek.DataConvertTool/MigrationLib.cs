@@ -8,36 +8,36 @@ namespace Pek.DataConvertTool;
 [Description("数值线性转换类")]
 public class MigrationLib
 {
-    private static string ByteMax = byte.MaxValue.ToString();
-    private static string ByteMin = byte.MinValue.ToString();
+    private static readonly String ByteMax = Byte.MaxValue.ToString();
+    private static readonly String ByteMin = Byte.MinValue.ToString();
 
-    private static string ShortMax = short.MaxValue.ToString();
-    private static string ShortMin = ushort.MinValue.ToString();
+    private static readonly String ShortMax = Int16.MaxValue.ToString();
+    private static readonly String ShortMin = Int16.MinValue.ToString();
 
-    private static string UShortMax = ushort.MaxValue.ToString();
-    private static string UShortMin = ushort.MinValue.ToString();
+    private static readonly String UShortMax = UInt16.MaxValue.ToString();
+    private static readonly String UShortMin = UInt16.MinValue.ToString();
 
-    private static string IntMax = int.MaxValue.ToString();
-    private static string IntMin = int.MinValue.ToString();
+    private static readonly String IntMax = Int32.MaxValue.ToString();
+    private static readonly String IntMin = Int32.MinValue.ToString();
 
-    private static string UIntMax = uint.MaxValue.ToString();
-    private static string UIntMin = uint.MinValue.ToString();
+    private static readonly String UIntMax = UInt32.MaxValue.ToString();
+    private static readonly String UIntMin = UInt32.MinValue.ToString();
 
-    private static string FloatMax = float.MaxValue.ToString();
-    private static string FloatMin = float.MinValue.ToString();
+    private static readonly String FloatMax = Single.MaxValue.ToString();
+    private static readonly String FloatMin = Single.MinValue.ToString();
 
-    private static string LongMax = long.MaxValue.ToString();
-    private static string LongMin = long.MinValue.ToString();
+    private static readonly String LongMax = Int64.MaxValue.ToString();
+    private static readonly String LongMin = Int64.MinValue.ToString();
 
-    private static string ULongMax = ulong.MaxValue.ToString();
-    private static string ULongMin = ulong.MinValue.ToString();
+    private static readonly String ULongMax = UInt64.MaxValue.ToString();
+    private static readonly String ULongMin = UInt64.MinValue.ToString();
 
-    private static string DoubleMax = double.MaxValue.ToString();
-    private static string DoubleMin = double.MinValue.ToString();
+    private static readonly String DoubleMax = Double.MaxValue.ToString();
+    private static readonly String DoubleMin = Double.MinValue.ToString();
 
-    private static string GetErrorMsg(DataType type)
+    private static String GetErrorMsg(DataType type)
     {
-        string result = string.Empty;
+        var result = String.Empty;
 
         switch (type)
         {
@@ -68,6 +68,14 @@ public class MigrationLib
             case DataType.Double:
                 result = "设置范围：" + DoubleMin + "-" + DoubleMax;
                 break;
+            case DataType.Bool:
+                break;
+            case DataType.String:
+                break;
+            case DataType.ByteArray:
+                break;
+            case DataType.HexString:
+                break;
             default:
                 result = "非有效值类型";
                 break;
@@ -83,7 +91,7 @@ public class MigrationLib
     /// <param name="offset">线性偏移</param>
     /// <returns>带操作结果的转换结果</returns>
     [Description("获取线性转换结果")]
-    public static OperateResult<object> GetMigrationValue(object value, float scale, float offset)
+    public static OperateResult<Object> GetMigrationValue(Object value, Single scale, Single offset)
     {
         if (scale == 1.0 && offset == 0.0)
         {
@@ -91,36 +99,22 @@ public class MigrationLib
         }
         else
         {
-            object val;
+            Object val;
             try
             {
-                string type = value.GetType().Name;
-                switch (type.ToLower())
+                var type = value.GetType().Name;
+                val = type.ToLower() switch
                 {
-                    case "byte":
-                    case "int16":
-                    case "uint16":
-                    case "int32":
-                    case "uint32":
-                    case "single":
-                        val = Convert.ToSingle((Convert.ToSingle(value) * scale + offset).ToString("N4"));
-                        break;
-                    case "int64":
-                    case "uint64":
-                    case "double":
-                        val = Convert.ToDouble((Convert.ToDouble(value) * scale + offset).ToString("N4"));
-                        break;
-                    default:
-                        val = value;
-                        break;
-                }
+                    "byte" or "int16" or "uint16" or "int32" or "uint32" or "single" => Convert.ToSingle((Convert.ToSingle(value) * scale + offset).ToString("N4")),
+                    "int64" or "uint64" or "double" => Convert.ToDouble((Convert.ToDouble(value) * scale + offset).ToString("N4")),
+                    _ => value,
+                };
                 return OperateResult.CreateSuccessResult(val);
             }
             catch (Exception ex)
             {
-                return new OperateResult<object>("转换出错：" + ex.Message);
+                return new OperateResult<Object>("转换出错：" + ex.Message);
             }
-
         }
     }
 
@@ -133,9 +127,9 @@ public class MigrationLib
     /// <param name="offset">线性偏移</param>
     /// <returns>带操作结果的转换结果</returns>
     [Description("线性转换后的设定值")]
-    public static OperateResult<string> SetMigrationValue(string set, DataType type, float scale, float offset)
+    public static OperateResult<String> SetMigrationValue(String set, DataType type, Single scale, Single offset)
     {
-        OperateResult<string> result = new OperateResult<string>(false);
+        var result = new OperateResult<String>(false);
         if (scale == 1.0 && offset == 0.0)
         {
             try
@@ -168,6 +162,14 @@ public class MigrationLib
                         break;
                     case DataType.Double:
                         result.Content = Convert.ToDouble(set).ToString();
+                        break;
+                    case DataType.Bool:
+                        break;
+                    case DataType.String:
+                        break;
+                    case DataType.ByteArray:
+                        break;
+                    case DataType.HexString:
                         break;
                     default:
                         result.Content = set;
@@ -215,6 +217,14 @@ public class MigrationLib
                         break;
                     case DataType.Double:
                         result.Content = Convert.ToDouble((Convert.ToSingle(set) - offset) / scale).ToString();
+                        break;
+                    case DataType.Bool:
+                        break;
+                    case DataType.String:
+                        break;
+                    case DataType.ByteArray:
+                        break;
+                    case DataType.HexString:
                         break;
                     default:
                         result.Content = set;

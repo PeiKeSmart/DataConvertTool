@@ -225,9 +225,9 @@ public class BitLib
 
         if (value.Contains(spilt))
         {
-            var strings = value.Split([spilt], StringSplitOptions.RemoveEmptyEntries);
+            var Strings = value.Split([spilt], StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var item in strings)
+            foreach (var item in Strings)
             {
                 result.Add(IsBoolean(item));
             }
