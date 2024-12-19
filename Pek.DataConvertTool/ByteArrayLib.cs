@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Text;
 
+using NewLife;
+
 namespace Pek.DataConvertTool;
 
 /// <summary>
@@ -17,7 +19,7 @@ public class ByteArrayLib
     /// <param name="length">截取长度</param>
     /// <returns>字节数组</returns>
     [Description("根据起始地址和长度自定义截取字节数组")]
-    public static byte[] GetByteArrayFromByteArray(byte[] data, int start, int length)
+    public static Byte[] GetByteArrayFromByteArray(Byte[] data, Int32 start, Int32 length)
     {
         if (start < 0) throw new ArgumentException("开始索引不能为负数");
 
@@ -25,7 +27,7 @@ public class ByteArrayLib
 
         if (data.Length < (start + length)) throw new ArgumentException("字节数组长度不够或开始索引太大");
 
-        byte[] result = new byte[length];
+        var result = new Byte[length];
 
         Array.Copy(data, start, result, 0, length);
 
@@ -39,10 +41,7 @@ public class ByteArrayLib
     /// <param name="start">开始字节</param>
     /// <returns>字节数组</returns>
     [Description("根据起始地址自定义截取字节数组")]
-    public static byte[] GetByteArrayFromByteArray(byte[] data, int start)
-    {
-        return GetByteArrayFromByteArray(data, start, data.Length - start);
-    }
+    public static Byte[] GetByteArrayFromByteArray(Byte[] data, Int32 start) => GetByteArrayFromByteArray(data, start, data.Length - start);
 
     /// <summary>
     /// 从字节数组中截取2个字节,并按指定字节序返回
@@ -52,9 +51,9 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序，默认为ABCD</param>
     /// <returns>字节数组</returns> 
     [Description("从字节数组中截取2个字节,并按指定字节序返回")]
-    public static byte[] Get2BytesFromByteArray(byte[] value, int start, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] Get2BytesFromByteArray(Byte[] value, Int32 start, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] res = GetByteArrayFromByteArray(value, start, 2);
+        var res = GetByteArrayFromByteArray(value, start, 2);
 
         switch (dataFormat)
         {
@@ -64,6 +63,8 @@ public class ByteArrayLib
             case DataFormat.BADC:
             case DataFormat.DCBA:
                 return res;
+            default:
+                break;
         }
         return res;
     }
@@ -76,11 +77,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序，默认为ABCD</param>
     /// <returns>字节数组</returns>
     [Description("从字节数组中截取4个字节,并按指定字节序返回")]
-    public static byte[] Get4BytesFromByteArray(byte[] value, int start, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] Get4BytesFromByteArray(Byte[] value, Int32 start, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = GetByteArrayFromByteArray(value, start, 4);
+        var resTemp = GetByteArrayFromByteArray(value, start, 4);
 
-        byte[] res = new byte[4];
+        var res = new Byte[4];
 
         switch (dataFormat)
         {
@@ -107,7 +108,6 @@ public class ByteArrayLib
                 break;
         }
         return res;
-
     }
 
     /// <summary>
@@ -118,13 +118,13 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序，默认为ABCD</param>
     /// <returns>字节数组</returns>
     [Description("从字节数组中截取8个字节,并按指定字节序返回")]
-    public static byte[] Get8BytesFromByteArray(byte[] value, int start, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] Get8BytesFromByteArray(Byte[] value, Int32 start, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] res = new byte[8];
+        var res = new Byte[8];
 
-        byte[] resTemp = GetByteArrayFromByteArray(value, start, 8);
+        var resTemp = GetByteArrayFromByteArray(value, start, 8);
 
-        if (resTemp == null) return null;
+        if (resTemp == null) return [];
 
         switch (dataFormat)
         {
@@ -172,11 +172,11 @@ public class ByteArrayLib
     /// <param name="value2">字节数组2</param>
     /// <returns>是否相同</returns>
     [Description("比较两个字节数组是否完全相同")]
-    public static bool GetByteArrayEquals(byte[] value1, byte[] value2)
+    public static Boolean GetByteArrayEquals(Byte[] value1, Byte[] value2)
     {
         if (value1 == null || value2 == null) return false;
         if (value1.Length != value2.Length) return false;
-        for (int i = 0; i < value1.Length; i++)
+        for (var i = 0; i < value1.Length; i++)
         {
             if (value1[i] != value2[i])
             {
@@ -192,10 +192,7 @@ public class ByteArrayLib
     /// <param name="value">单个字节</param>
     /// <returns>字节数组</returns>
     [Description("将单个字节转换成字节数组")]
-    public static byte[] GetByteArrayFromByte(byte value)
-    {
-        return new byte[] { value };
-    }
+    public static Byte[] GetByteArrayFromByte(Byte value) => [value];
 
     /// <summary>
     /// 将Short类型数值转换成字节数组
@@ -204,11 +201,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Short类型数值转换成字节数组")]
-    public static byte[] GetByteArrayFromShort(short value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromShort(Int16 value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = BitConverter.GetBytes(value);
+        var resTemp = BitConverter.GetBytes(value);
 
-        byte[] res = new byte[2];
+        var res = new Byte[2];
 
         switch (dataFormat)
         {
@@ -234,11 +231,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将UShort类型数值转换成字节数组")]
-    public static byte[] GetByteArrayFromUShort(ushort value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromUShort(UInt16 value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = BitConverter.GetBytes(value);
+        var resTemp = BitConverter.GetBytes(value);
 
-        byte[] res = new byte[2];
+        var res = new Byte[2];
 
         switch (dataFormat)
         {
@@ -264,11 +261,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Int类型数值转换成字节数组")]
-    public static byte[] GetByteArrayFromInt(int value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromInt(Int32 value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = BitConverter.GetBytes(value);
+        var resTemp = BitConverter.GetBytes(value);
 
-        byte[] res = new byte[4];
+        var res = new Byte[4];
 
         switch (dataFormat)
         {
@@ -296,6 +293,7 @@ public class ByteArrayLib
         }
         return res;
     }
+
     /// <summary>
     /// 将UInt类型数值转换成字节数组
     /// </summary>
@@ -303,11 +301,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将UInt类型数值转换成字节数组")]
-    public static byte[] GetByteArrayFromUInt(uint value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromUInt(UInt32 value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = BitConverter.GetBytes(value);
+        var resTemp = BitConverter.GetBytes(value);
 
-        byte[] res = new byte[4];
+        var res = new Byte[4];
 
         switch (dataFormat)
         {
@@ -343,11 +341,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Float数值转换成字节数组")]
-    public static byte[] GetByteArrayFromFloat(float value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromFloat(Single value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = BitConverter.GetBytes(value);
+        var resTemp = BitConverter.GetBytes(value);
 
-        byte[] res = new byte[4];
+        var res = new Byte[4];
 
         switch (dataFormat)
         {
@@ -375,6 +373,7 @@ public class ByteArrayLib
         }
         return res;
     }
+
     /// <summary>
     /// 将Double类型数值转换成字节数组
     /// </summary>
@@ -382,11 +381,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Double类型数值转换成字节数组")]
-    public static byte[] GetByteArrayFromDouble(double value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromDouble(Double value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = BitConverter.GetBytes(value);
+        var resTemp = BitConverter.GetBytes(value);
 
-        byte[] res = new byte[8];
+        var res = new Byte[8];
 
         switch (dataFormat)
         {
@@ -434,11 +433,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Long类型数值转换成字节数组")]
-    public static byte[] GetByteArrayFromLong(long value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromLong(Int64 value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = BitConverter.GetBytes(value);
+        var resTemp = BitConverter.GetBytes(value);
 
-        byte[] res = new byte[8];
+        var res = new Byte[8];
 
         switch (dataFormat)
         {
@@ -486,11 +485,11 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将ULong类型数值转换成字节数组")]
-    public static byte[] GetByteArrayFromULong(ulong value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromULong(UInt64 value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        byte[] resTemp = BitConverter.GetBytes(value);
+        var resTemp = BitConverter.GetBytes(value);
 
-        byte[] res = new byte[8];
+        var res = new Byte[8];
 
         switch (dataFormat)
         {
@@ -538,15 +537,15 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Short数组转换成字节数组")]
-    public static byte[] GetByteArrayFromShortArray(short[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromShortArray(Int16[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        ByteArray array = new ByteArray();
+        var array = new ByteArray();
 
         foreach (var item in value)
         {
             array.Add(GetByteArrayFromShort(item, dataFormat));
         }
-        return array.array;
+        return array.Array;
     }
 
     /// <summary>
@@ -556,15 +555,15 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将UShort数组转换成字节数组")]
-    public static byte[] GetByteArrayFromUShortArray(ushort[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromUShortArray(UInt16[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        ByteArray array = new ByteArray();
+        var array = new ByteArray();
 
         foreach (var item in value)
         {
             array.Add(GetByteArrayFromUShort(item, dataFormat));
         }
-        return array.array;
+        return array.Array;
     }
 
     /// <summary>
@@ -574,16 +573,17 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Int类型数组转换成字节数组")]
-    public static byte[] GetByteArrayFromIntArray(int[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromIntArray(Int32[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        ByteArray array = new ByteArray();
+        var array = new ByteArray();
 
         foreach (var item in value)
         {
             array.Add(GetByteArrayFromInt(item, dataFormat));
         }
-        return array.array;
+        return array.Array;
     }
+
     /// <summary>
     /// 将UInt类型数组转换成字节数组
     /// </summary>
@@ -591,15 +591,15 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将UInt类型数组转换成字节数组")]
-    public static byte[] GetByteArrayFromUIntArray(uint[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromUIntArray(UInt32[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        ByteArray array = new ByteArray();
+        var array = new ByteArray();
 
         foreach (var item in value)
         {
             array.Add(GetByteArrayFromUInt(item, dataFormat));
         }
-        return array.array;
+        return array.Array;
     }
 
     /// <summary>
@@ -609,15 +609,15 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Float类型数组转成字节数组")]
-    public static byte[] GetByteArrayFromFloatArray(float[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromFloatArray(Single[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        ByteArray array = new ByteArray();
+        var array = new ByteArray();
 
         foreach (var item in value)
         {
             array.Add(GetByteArrayFromFloat(item, dataFormat));
         }
-        return array.array;
+        return array.Array;
     }
 
     /// <summary>
@@ -627,15 +627,15 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Double类型数组转成字节数组")]
-    public static byte[] GetByteArrayFromDoubleArray(double[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromDoubleArray(Double[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        ByteArray array = new ByteArray();
+        var array = new ByteArray();
 
         foreach (var item in value)
         {
             array.Add(GetByteArrayFromDouble(item, dataFormat));
         }
-        return array.array;
+        return array.Array;
     }
 
     /// <summary>
@@ -645,15 +645,15 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将Long类型数组转换成字节数组")]
-    public static byte[] GetByteArrayFromLongArray(long[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromLongArray(Int64[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        ByteArray array = new ByteArray();
+        var array = new ByteArray();
 
         foreach (var item in value)
         {
             array.Add(GetByteArrayFromLong(item, dataFormat));
         }
-        return array.array;
+        return array.Array;
     }
 
     /// <summary>
@@ -663,15 +663,15 @@ public class ByteArrayLib
     /// <param name="dataFormat">字节顺序</param>
     /// <returns>字节数组</returns>
     [Description("将ULong类型数组转换成字节数组")]
-    public static byte[] GetByteArrayFromULongArray(ulong[] value, DataFormat dataFormat = DataFormat.ABCD)
+    public static Byte[] GetByteArrayFromULongArray(UInt64[] value, DataFormat dataFormat = DataFormat.ABCD)
     {
-        ByteArray array = new ByteArray();
+        var array = new ByteArray();
 
         foreach (var item in value)
         {
             array.Add(GetByteArrayFromULong(item, dataFormat));
         }
-        return array.array;
+        return array.Array;
     }
 
     /// <summary>
@@ -681,10 +681,7 @@ public class ByteArrayLib
     /// <param name="encoding">编码格式</param>
     /// <returns>字节数组</returns>
     [Description("将指定编码格式的字符串转换成字节数组")]
-    public static byte[] GetByteArrayFromString(string value, Encoding encoding)
-    {
-        return encoding.GetBytes(value);
-    }
+    public static Byte[] GetByteArrayFromString(String value, Encoding encoding) => encoding.GetBytes(value);
 
     /// <summary>
     /// 将16进制字符串按照空格分隔成字节数组
@@ -693,17 +690,19 @@ public class ByteArrayLib
     /// <param name="spilt">分隔符</param>
     /// <returns>字节数组</returns>
     [Description("将16进制字符串按照空格分隔成字节数组")]
-    public static byte[] GetByteArrayFromHexString(string value, string spilt = " ")
+    public static Byte[] GetByteArrayFromHexString(String? value, String spilt = " ")
     {
+        if (value.IsNullOrWhiteSpace()) return [];
+
         value = value.Trim();//去除空格
 
-        List<byte> result = new List<byte>();
+        var result = new List<Byte>();
 
         try
         {
             if (value.Contains(spilt))
             {
-                string[] str = value.Split(new string[] { spilt }, StringSplitOptions.RemoveEmptyEntries);
+                var str = value.Split([spilt], StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var item in str)
                 {
@@ -714,7 +713,7 @@ public class ByteArrayLib
             {
                 result.Add(Convert.ToByte(value.Trim(), 16));
             }
-            return result.ToArray();
+            return [.. result];
         }
         catch (Exception ex)
         {
@@ -728,20 +727,20 @@ public class ByteArrayLib
     /// <param name="value">16进制字符串</param>
     /// <returns>字节数组</returns>
     [Description("将16进制字符串不用分隔符转换成字节数组（每2个字符为1个字节）")]
-    public static byte[] GetByteArrayFromHexStringWithoutSpilt(string value)
+    public static Byte[] GetByteArrayFromHexStringWithoutSpilt(String value)
     {
         if (value.Length % 2 != 0) throw new ArgumentNullException("检查字符串长度是否为偶数");
 
-        List<byte> result = new List<byte>();
+        var result = new List<Byte>();
         try
         {
-            for (int i = 0; i < value.Length; i += 2)
+            for (var i = 0; i < value.Length; i += 2)
             {
-                string temp = value.Substring(i, 2);
+                var temp = value.Substring(i, 2);
 
                 result.Add(Convert.ToByte(temp, 16));
             }
-            return result.ToArray();
+            return [.. result];
         }
         catch (Exception ex)
         {
@@ -755,10 +754,7 @@ public class ByteArrayLib
     /// <param name="value">byte数据</param>
     /// <returns>字节数组</returns>
     [Description("将byte数据转换成一个Asii格式字节数组")]
-    public static byte[] GetAsciiByteArrayFromValue(byte value)
-    {
-        return Encoding.ASCII.GetBytes(value.ToString("X2"));
-    }
+    public static Byte[] GetAsciiByteArrayFromValue(Byte value) => Encoding.ASCII.GetBytes(value.ToString("X2"));
 
     /// <summary>
     /// 将short数据转换成一个Ascii格式字节数组
@@ -766,10 +762,7 @@ public class ByteArrayLib
     /// <param name="value">short数据</param>
     /// <returns>字节数组</returns>
     [Description("将short数据转换成一个Ascii格式字节数组")]
-    public static byte[] GetAsciiByteArrayFromValue(short value)
-    {
-        return Encoding.ASCII.GetBytes(value.ToString("X4"));
-    }
+    public static Byte[] GetAsciiByteArrayFromValue(Int16 value) => Encoding.ASCII.GetBytes(value.ToString("X4"));
 
     /// <summary>
     /// 将ushort数据转换成一个Ascii格式字节数组
@@ -777,10 +770,7 @@ public class ByteArrayLib
     /// <param name="value">ushort数据</param>
     /// <returns>字节数组</returns>
     [Description("将ushort数据转换成一个Ascii格式字节数组")]
-    public static byte[] GetAsciiByteArrayFromValue(ushort value)
-    {
-        return Encoding.ASCII.GetBytes(value.ToString("X4"));
-    }
+    public static Byte[] GetAsciiByteArrayFromValue(UInt16 value) => Encoding.ASCII.GetBytes(value.ToString("X4"));
 
     /// <summary>
     /// 将string数据转换成一个Ascii格式字节数组
@@ -788,10 +778,7 @@ public class ByteArrayLib
     /// <param name="value">string数据</param>
     /// <returns>字节数组</returns>
     [Description("将string数据转换成一个Ascii格式字节数组")]
-    public static byte[] GetAsciiByteArrayFromValue(string value)
-    {
-        return Encoding.ASCII.GetBytes(value);
-    }
+    public static Byte[] GetAsciiByteArrayFromValue(String value) => Encoding.ASCII.GetBytes(value);
 
     /// <summary>
     /// 将布尔数组转换成字节数组
@@ -799,20 +786,19 @@ public class ByteArrayLib
     /// <param name="data">布尔数组</param>
     /// <returns>字节数组</returns>
     [Description("将布尔数组转换成字节数组")]
-    public static byte[] GetByteArrayFromBoolArray(bool[] data)
+    public static Byte[] GetByteArrayFromBoolArray(Boolean[] data)
     {
-
         if (data == null || data.Length == 0) throw new ArgumentNullException("检查数组长度是否正确"); ;
 
-        byte[] result = new byte[data.Length % 8 != 0 ? data.Length / 8 + 1 : data.Length / 8];
+        var result = new Byte[data.Length % 8 != 0 ? data.Length / 8 + 1 : data.Length / 8];
 
         //遍历每个字节
-        for (int i = 0; i < result.Length; i++)
+        for (var i = 0; i < result.Length; i++)
         {
-            int total = data.Length < 8 * (i + 1) ? data.Length - 8 * i : 8;
+            var total = data.Length < 8 * (i + 1) ? data.Length - 8 * i : 8;
 
             //遍历当前字节的每个位赋值
-            for (int j = 0; j < total; j++)
+            for (var j = 0; j < total; j++)
             {
                 result[i] = ByteLib.SetbitValue(result[i], j, data[8 * i + j]);
             }
@@ -826,12 +812,12 @@ public class ByteArrayLib
     /// <param name="value">西门子字符串</param>
     /// <returns>字节数组</returns>
     [Description("将西门子字符串转换成字节数组")]
-    public static byte[] GetByteArrayFromSiemensString(string value)
+    public static Byte[] GetByteArrayFromSiemensString(String value)
     {
-        byte[] data = GetByteArrayFromString(value, Encoding.GetEncoding("GBK"));
-        byte[] result = new byte[data.Length + 2];
-        result[0] = (byte)(data.Length + 2);
-        result[1] = (byte)data.Length;
+        var data = GetByteArrayFromString(value, Encoding.GetEncoding("GBK"));
+        var result = new Byte[data.Length + 2];
+        result[0] = (Byte)(data.Length + 2);
+        result[1] = (Byte)data.Length;
         Array.Copy(data, 0, result, 2, data.Length);
         return result;
     }
@@ -842,13 +828,13 @@ public class ByteArrayLib
     /// <param name="data">西门子字符串</param>
     /// <returns>字节数组</returns>
     [Description("将欧姆龙CIP字符串转换成字节数组")]
-    public static byte[] GetByteArrayFromOmronCIPString(string data)
+    public static Byte[] GetByteArrayFromOmronCIPString(String data)
     {
-        byte[] b = GetByteArrayFromString(data, Encoding.ASCII);
+        var b = GetByteArrayFromString(data, Encoding.ASCII);
 
-        byte[] res = GetEvenByteArray(b);
+        var res = GetEvenByteArray(b);
 
-        byte[] array = new byte[res.Length + 2];
+        var array = new Byte[res.Length + 2];
         array[0] = BitConverter.GetBytes(array.Length - 2)[0];
         array[1] = BitConverter.GetBytes(array.Length - 2)[1];
         Array.Copy(res, 0, array, 2, res.Length);
@@ -861,9 +847,9 @@ public class ByteArrayLib
     /// <param name="data">原始字节数据</param>
     /// <returns>返回字节数组</returns>
     [Description("扩展为偶数长度字节数组")]
-    public static byte[] GetEvenByteArray(byte[] data)
+    public static Byte[] GetEvenByteArray(Byte[] data)
     {
-        if (data == null) return new byte[0];
+        if (data == null) return [];
 
         if (data.Length % 2 != 0)
             return GetFixedLengthByteArray(data, data.Length + 1);
@@ -878,13 +864,13 @@ public class ByteArrayLib
     /// <param name="length">指定长度</param>
     /// <returns>返回字节数组</returns>
     [Description("扩展或压缩字节数组到指定数量")]
-    public static byte[] GetFixedLengthByteArray(byte[] data, int length)
+    public static Byte[] GetFixedLengthByteArray(Byte[] data, Int32 length)
     {
-        if (data == null) return new byte[length];
+        if (data == null) return new Byte[length];
 
         if (data.Length == length) return data;
 
-        byte[] buffer = new byte[length];
+        var buffer = new Byte[length];
 
         Array.Copy(data, buffer, Math.Min(data.Length, buffer.Length));
 
@@ -899,10 +885,7 @@ public class ByteArrayLib
     /// <param name="segment">分隔符</param>
     /// <returns>ASCII字节数组</returns>
     [Description("将字节数组转换成Ascii字节数组")]
-    public static byte[] GetAsciiBytesFromByteArray(byte[] value, string segment = "")
-    {
-        return Encoding.ASCII.GetBytes(StringLib.GetHexStringFromByteArray(value, segment));
-    }
+    public static Byte[] GetAsciiBytesFromByteArray(Byte[] value, String segment = "") => Encoding.ASCII.GetBytes(StringLib.GetHexStringFromByteArray(value, segment));
 
 
     /// <summary>
@@ -911,10 +894,7 @@ public class ByteArrayLib
     /// <param name="value">ASCII字节数组</param>
     /// <returns>字节数组</returns>
     [Description("将Ascii字节数组转换成字节数组")]
-    public static byte[] GetBytesArrayFromAsciiByteArray(byte[] value)
-    {
-        return GetByteArrayFromHexStringWithoutSpilt(Encoding.ASCII.GetString(value));
-    }
+    public static Byte[] GetBytesArrayFromAsciiByteArray(Byte[] value) => GetByteArrayFromHexStringWithoutSpilt(Encoding.ASCII.GetString(value));
 
     /// <summary>
     /// 将2个字节数组进行合并
@@ -923,13 +903,13 @@ public class ByteArrayLib
     /// <param name="bytes2">字节数组2</param>
     /// <returns>返回字节数组</returns>
     [Description("将2个字节数组进行合并")]
-    public static byte[] GetByteArrayFromTwoByteArray(byte[] bytes1, byte[] bytes2)
+    public static Byte[] GetByteArrayFromTwoByteArray(Byte[] bytes1, Byte[] bytes2)
     {
-        if (bytes1 == null && bytes2 == null) return null;
+        if (bytes1 == null && bytes2 == null) return [];
         if (bytes1 == null) return bytes2;
         if (bytes2 == null) return bytes1;
 
-        byte[] buffer = new byte[bytes1.Length + bytes2.Length];
+        var buffer = new Byte[bytes1.Length + bytes2.Length];
         bytes1.CopyTo(buffer, 0);
         bytes2.CopyTo(buffer, bytes1.Length);
         return buffer;
@@ -943,10 +923,7 @@ public class ByteArrayLib
     /// <param name="bytes3">字节数组3</param>
     /// <returns>返回字节数组</returns>
     [Description("将3个字节数组进行合并")]
-    public static byte[] GetByteArrayFromThreeByteArray(byte[] bytes1, byte[] bytes2, byte[] bytes3)
-    {
-        return GetByteArrayFromTwoByteArray(GetByteArrayFromTwoByteArray(bytes1, bytes2), bytes3);
-    }
+    public static Byte[] GetByteArrayFromThreeByteArray(Byte[] bytes1, Byte[] bytes2, Byte[] bytes3) => GetByteArrayFromTwoByteArray(GetByteArrayFromTwoByteArray(bytes1, bytes2), bytes3);
 
     /// <summary>
     /// 将字节数组中的某个数据修改
@@ -957,10 +934,10 @@ public class ByteArrayLib
     /// <param name="offset">偏移，布尔及字符串才起作用</param>
     /// <returns>返回字节数组</returns>
     [Description("将字节数组中的某个数据修改")]
-    public static byte[] SetByteArray(byte[] sourceArray, object value, int start, int offset)
+    public static Byte[] SetByteArray(Byte[] sourceArray, Object value, Int32 start, Int32 offset)
     {
-        string name = value.GetType().Name;
-        byte[] b = null;
+        var name = value.GetType().Name;
+        Byte[]? b;
         switch (name.ToLower())
         {
             case "boolean":

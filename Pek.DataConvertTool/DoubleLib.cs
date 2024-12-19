@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using NewLife;
+
 namespace Pek.DataConvertTool;
 
 /// <summary>
@@ -52,8 +54,10 @@ public class DoubleLib
     /// <param name="spilt">分割符</param>
     /// <returns>双精度浮点型数组</returns>
     [Description("将Double字符串转换成双精度浮点型数组")]
-    public static double[] GetDoubleArrayFromString(string value, string spilt = " ")
+    public static double[] GetDoubleArrayFromString(String? value, string spilt = " ")
     {
+        if (value.IsNullOrWhiteSpace()) return [];
+
         value = value.Trim();
 
         List<double> result = new List<double>();

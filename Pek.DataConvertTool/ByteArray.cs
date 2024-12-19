@@ -11,14 +11,14 @@ public class ByteArray
 
     #region 初始化
 
-    private List<byte> list = new List<byte>();
+    private List<Byte> list = [];
 
     /// <summary>
     /// 通过索引获取值
     /// </summary>
     /// <param name="index">索引</param>
     /// <returns>返回字节</returns>
-    public byte this[int index]
+    public Byte this[Int32 index]
     {
         get => list[index];
         set => list[index] = value;
@@ -27,7 +27,7 @@ public class ByteArray
     /// <summary>
     /// 返回长度
     /// </summary>
-    public int Length => list.Count;
+    public Int32 Length => list.Count;
 
     #endregion
 
@@ -36,10 +36,7 @@ public class ByteArray
     /// <summary>
     /// 属性，返回字节数组
     /// </summary>
-    public byte[] array
-    {
-        get { return list.ToArray(); }
-    }
+    public Byte[] Array => [.. list];
     #endregion
 
     #region 相关方法
@@ -47,10 +44,7 @@ public class ByteArray
     /// 清空字节数组
     /// </summary>
     [Description("清空字节数组")]
-    public void Clear()
-    {
-        list = new List<byte>();
-    }
+    public void Clear() => list = [];
 
 
     /// <summary>
@@ -58,30 +52,24 @@ public class ByteArray
     /// </summary>
     /// <param name="items">字节数组</param>
     [Description("添加可变字节数组")]
-    public void Add(params byte[] items)
-    {
-        list.AddRange(items);
-    }
+    public void Add(params Byte[] items) => list.AddRange(items);
 
     /// <summary>
     /// 添加一个ByteArray对象
     /// </summary>
     /// <param name="byteArray">ByteArray对象</param>
     [Description("添加一个ByteArray对象")]
-    public void Add(ByteArray byteArray)
-    {
-        Add(byteArray.array);
-    }
+    public void Add(ByteArray byteArray) => Add(byteArray.Array);
 
     /// <summary>
     /// 添加一个ushort类型数值
     /// </summary>
     /// <param name="value">ushort类型数值</param>
     [Description("添加一个ushort类型数值")]
-    public void Add(ushort value)
+    public void Add(UInt16 value)
     {
-        list.Add((byte)(value >> 8));
-        list.Add((byte)value);
+        list.Add((Byte)(value >> 8));
+        list.Add((Byte)value);
     }
 
     /// <summary>
@@ -89,10 +77,10 @@ public class ByteArray
     /// </summary>
     /// <param name="value">short类型数值</param>
     [Description("添加一个short类型数值")]
-    public void Add(short value)
+    public void Add(Int16 value)
     {
-        list.Add((byte)(value >> 8));
-        list.Add((byte)value);
+        list.Add((Byte)(value >> 8));
+        list.Add((Byte)value);
     }
 
     #endregion

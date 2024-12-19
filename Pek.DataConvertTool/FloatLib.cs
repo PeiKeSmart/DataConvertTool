@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using NewLife;
+
 namespace Pek.DataConvertTool;
 
 /// <summary>
@@ -52,8 +54,10 @@ public class FloatLib
     /// <param name="spilt">分隔符</param>
     /// <returns>单精度浮点型数组</returns>
     [Description("将Float字符串转换成单精度浮点型数组")]
-    public static float[] GetFloatArrayFromString(string value, string spilt = " ")
+    public static float[] GetFloatArrayFromString(String? value, string spilt = " ")
     {
+        if (value.IsNullOrWhiteSpace()) return [];
+
         value = value.Trim();
 
         List<float> result = new List<float>();

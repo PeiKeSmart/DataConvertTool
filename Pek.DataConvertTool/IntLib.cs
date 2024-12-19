@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using NewLife;
+
 namespace Pek.DataConvertTool;
 
 /// <summary>
@@ -52,8 +54,10 @@ public class IntLib
     /// <param name="spilt">分隔符</param>
     /// <returns>返回int数组</returns>
     [Description("将字符串转转成32位整型数组")]
-    public static int[] GetIntArrayFromString(string value, string spilt = " ")
+    public static int[] GetIntArrayFromString(String? value, string spilt = " ")
     {
+        if (value.IsNullOrWhiteSpace()) return [];
+
         value = value.Trim();
 
         List<int> result = new List<int>();

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using NewLife;
+
 namespace Pek.DataConvertTool;
 
 /// <summary>
@@ -51,8 +53,10 @@ public class ULongLib
     /// <param name="spilt">分隔符</param>
     /// <returns>返回ULong数组</returns>
     [Description("将字符串转转成64位无符号整型数组")]
-    public static ulong[] GetULongArrayFromString(string value, string spilt = " ")
+    public static ulong[] GetULongArrayFromString(String? value, string spilt = " ")
     {
+        if (value.IsNullOrWhiteSpace()) return [];
+
         value = value.Trim();
 
         List<ulong> result = new List<ulong>();

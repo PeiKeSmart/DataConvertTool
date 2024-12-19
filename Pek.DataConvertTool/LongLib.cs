@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using NewLife;
+
 namespace Pek.DataConvertTool;
 
 /// <summary>
@@ -51,8 +53,10 @@ public class LongLib
     /// <param name="spilt">分隔符</param>
     /// <returns>返回Long数组</returns>
     [Description("将字符串转转成64位整型数组")]
-    public static long[] GetLongArrayFromString(string value, string spilt = " ")
+    public static long[] GetLongArrayFromString(String? value, string spilt = " ")
     {
+        if (value.IsNullOrWhiteSpace()) return [];
+
         value = value.Trim();
 
         List<long> result = new List<long>();

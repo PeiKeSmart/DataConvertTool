@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using NewLife;
+
 namespace Pek.DataConvertTool;
 
 /// <summary>
@@ -52,8 +54,10 @@ public class UIntLib
     /// <param name="spilt">分隔符</param>
     /// <returns>返回UInt数组</returns>
     [Description("将字符串转转成32位无符号整型数组")]
-    public static uint[] GetUIntArrayFromString(string value, string spilt = " ")
+    public static UInt32[] GetUIntArrayFromString(String? value, String spilt = " ")
     {
+        if (value.IsNullOrWhiteSpace()) return [];
+
         value = value.Trim();
 
         List<uint> result = new List<uint>();

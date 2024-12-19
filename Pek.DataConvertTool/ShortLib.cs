@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using NewLife;
+
 namespace Pek.DataConvertTool;
 
 /// <summary>
@@ -51,8 +53,10 @@ public class ShortLib
     /// <param name="spilt">分割符</param>
     /// <returns>返回Short数组</returns>
     [Description("将字符串转转成16位整型数组")]
-    public static short[] GetShortArrayFromString(string value, string spilt = " ")
+    public static Int16[] GetShortArrayFromString(String? value, String spilt = " ")
     {
+        if (value.IsNullOrWhiteSpace()) return [];
+
         value = value.Trim();
 
         List<short> result = new List<short>();

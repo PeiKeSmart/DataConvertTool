@@ -16,10 +16,7 @@ public class ByteLib
     /// <param name="bitValue">写入数值</param>
     /// <returns>返回字节</returns>
     [Description("将字节中的某个位赋值")]
-    public static byte SetbitValue(byte value, int offset, bool bitValue)
-    {
-        return bitValue ? (byte)(value | (byte)Math.Pow(2, offset)) : (byte)(value & ~(byte)Math.Pow(2, offset));
-    }
+    public static Byte SetbitValue(Byte value, Int32 offset, Boolean bitValue) => bitValue ? (Byte)(value | (Byte)Math.Pow(2, offset)) : (Byte)(value & ~(Byte)Math.Pow(2, offset));
 
     /// <summary>
     /// 从字节数组中截取某个字节
@@ -28,7 +25,7 @@ public class ByteLib
     /// <param name="start">开始索引</param>
     /// <returns>返回字节</returns>
     [Description("从字节数组中截取某个字节")]
-    public static byte GetByteFromByteArray(byte[] value, int start)
+    public static Byte GetByteFromByteArray(Byte[] value, Int32 start)
     {
         if (start > value.Length - 1) throw new ArgumentException("字节数组长度不够或开始索引太大");
 
@@ -41,14 +38,14 @@ public class ByteLib
     /// <param name="value">布尔数组</param>
     /// <returns>字节数组</returns>
     [Description("将布尔数组转换成字节数组")]
-    public static byte GetByteFromBoolArray(bool[] value)
+    public static Byte GetByteFromBoolArray(Boolean[] value)
     {
         if (value.Length != 8) throw new ArgumentNullException("检查数组长度是否为8");
 
-        byte result = 0;
+        Byte result = 0;
 
         //遍历当前字节的每个位赋值
-        for (int i = 0; i < 8; i++)
+        for (var i = 0; i < 8; i++)
         {
             result = SetbitValue(result, i, value[i]);
         }
