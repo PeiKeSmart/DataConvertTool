@@ -736,7 +736,7 @@ public class ByteArrayLib
         {
             for (var i = 0; i < value.Length; i += 2)
             {
-                var temp = value.SubString(i, 2);
+                var temp = value.Substring(i, 2);
 
                 result.Add(Convert.ToByte(temp, 16));
             }
