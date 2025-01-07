@@ -7,7 +7,7 @@ public static class SpanHelper
     /// </summary>
     /// <param name="bytes"></param>
     /// <returns></returns>
-    public static void ConvertBigToLitter(Span<Byte> bytes)
+    public static void ConvertBigToLitter(this Span<Byte> bytes)
     {
         var length = bytes.Length;
         for (var i = 0; i < length / 2; i++)
