@@ -44,12 +44,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DH.NCore" Version="4.1.2025.104-beta0328" />
+    <PackageReference Include="DH.NCore" Version="4.1.2025.109-beta2249" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Pek.Common" Version="4.0.2025.106-beta0936" />
+    <PackageReference Include="Pek.Common" Version="4.0.2025.110-beta0306" />
   </ItemGroup>
 
   <ItemGroup>
